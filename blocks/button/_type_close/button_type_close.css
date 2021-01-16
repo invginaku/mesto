@@ -1,10 +1,10 @@
 .button_type_close {
     background-image: url(../../../images/Close\ Icon.png);
-    background-position: center;    
+    background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
     width: 30px;
-    height: 30px;    
+    height: 30px;
     position: relative;
     top: -40px;
     right: -430px;
@@ -19,6 +19,6 @@
         top: -35px;
         right: -260px;
         width: 26px;
-        height: 26px; 
+        height: 26px;
     }
 }
