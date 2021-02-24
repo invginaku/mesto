@@ -3,6 +3,7 @@
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
+    position: relative;
     border-radius: 10px;
     padding-bottom: 37px;
 }

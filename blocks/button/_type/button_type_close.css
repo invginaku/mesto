@@ -5,19 +5,17 @@
     background-repeat: no-repeat;
     width: 30px;
     height: 30px;
-    position: relative;
-    top: -40px;
-    right: -430px;
+    position: absolute;
+    top: -36px;
+    right: -36px;
+    cursor: pointer;
 }
 
 .button_type_close:hover {
     opacity: 0.6;
 }
-
 @media screen and (max-width: 767px) {
     .button_type_close {
-        top: -35px;
-        right: -260px;
         width: 26px;
         height: 26px;
     }
