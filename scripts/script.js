@@ -11,7 +11,7 @@ let photoCard = document.querySelector(".photo-open");
 let addCardButton = document.querySelector(".button_type_add");
 let closeButtonPhoto = document.querySelector('.button_type_close-photo');
 let popupPlace = document.querySelector('.popup_add-place');
-let closeButtonPlace = document.querySelector('.button_type_close_add-place');
+let closeButtonPlace = document.querySelector('.button_type_close-add-place');
 let namePlace = document.querySelector('.popup__input_type_place-name');
 let imagePlace = document.querySelector('.popup__input_type_place-image');
 
