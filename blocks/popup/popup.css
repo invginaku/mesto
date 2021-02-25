@@ -9,4 +9,6 @@
     align-items: center;
     display: flex;
     visibility: hidden;
+    opacity: 0;
+    transition: visibility 1s linear, opacity 1s linear;
 }
