@@ -1,4 +1,4 @@
-class FormValidator {
+export default class FormValidator {
 	constructor (config, form) {
 		this._config = config;
 		this._form = form;
@@ -9,7 +9,7 @@ class FormValidator {
 		this._validateForm = this._validateForm.bind(this);
 	}
 
-	_validateInput (input) {
+	_validateInput (input) { // Валидация поля
 		if (input.validity.valid) {
 			this._hideValidationError(input);
 		} else {
@@ -17,7 +17,7 @@ class FormValidator {
 		}
 	}
 
-	_validateForm () {
+	_validateForm () { // Валидация формы
 		const inputsArray = Array.from(this._inputs);
 
 		if (inputsArray.every(input => input.validity.valid)) {
@@ -59,7 +59,7 @@ class FormValidator {
 		this._setEventListeners();
 	}
 
-	checkForm () {
+	checkForm () { // Проверка формы при открытии
 		const formIsValid = this._form.checkValidity();
 
 		this._inputs.forEach((input) => this._hideValidationError(input));
@@ -71,5 +71,3 @@ class FormValidator {
 		}
 	}
 }
-
-export { FormValidator };

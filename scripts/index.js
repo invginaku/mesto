@@ -1,5 +1,10 @@
-import { FormValidator } from './FormValidator.js';
-import { Card } from './Card.js';
+import FormValidator from './FormValidator.js';
+import UserInfo from './UserInfo.js';
+import PopupWithForm from './PopupWithForm.js';
+import PopupWithImage from './PopupWithImage.js';
+import Card from './Card.js';
+import Section from './Section.js';
+
 
 const validationConfig = {
 	formSelector: '.popup__form',
@@ -18,157 +23,126 @@ const initialCards = [
 	},
 	{
 		name: 'Саранск',
-		link: '/images/element-images/saransk.jpg',
+		link: './images/element-images/saransk.jpg',
 		alt: 'Мордовия Арена'
 	},
 	{
 		name: 'Москва',
-		link: '/images/element-images/moscow.jpg',
+		link: './images/element-images/moscow.jpg',
 		alt: 'Фудмолл ДЕПО'
 	},
 	{
 		name: 'Санкт-Питербург',
-		link: '/images/element-images/piter.jpg',
+		link: './images/element-images/piter.jpg',
 		alt: 'Казанский кафедральный собор'
 	},
 	{
 		name: 'Пенза',
-		link: '/images/element-images/penza.jpg',
+		link: './images/element-images/penza.jpg',
 		alt: 'Закат на районе ГПЗ-24'
 	},
 	{
 		name: 'Астрахань',
-		link: '/images/element-images/astrakhan.jpg',
+		link: './images/element-images/astrakhan.jpg',
 		alt: 'Река Волга'
 	}
 ];
 
 const root = document.querySelector('.body');
 const profileEditButton = root.querySelector('.button_type_edit');
-const profileNameString = root.querySelector('.profile__name');
-const profileDescriptionString = root.querySelector('.profile__status');
 const cardCreateButton = root.querySelector('.button_type_add');
-const cardGrid = root.querySelector('.elements');
-const popupProfile = root.querySelector('.profile-popup');
-const popupProfileForm = popupProfile.querySelector('.popup__form');
-const profileNameInput = popupProfile.querySelector('.popup__input_type_name');
-const profileDescriptionInput = popupProfile.querySelector('.popup__input_type_status');
-const popupCard = root.querySelector('.popup_add-place');
-const popupCardForm = popupCard.querySelector('.popup__form');
-const cardPlaceInput = popupCard.querySelector('.popup__input_type_place-name');
-const cardLinkInput = popupCard.querySelector('.popup__input_type_place-image');
-const popupFullPic = root.querySelector('.photo-open');
-const popupCloseButtons = root.querySelectorAll('.button_type_close');
+const cardGridSelector = '.elements';
 
+const popupProfileSelector = '.profile-popup';
+const popupProfileElement = root.querySelector(popupProfileSelector);
+const popupProfileForm = popupProfileElement.querySelector('.popup__form');
+const profileNameInput = popupProfileElement.querySelector('.popup__input_type_name');
+const profileDescriptionInput = popupProfileElement.querySelector('.popup__input_type_status');
 
-function addInitialCards () {
-	initialCards.forEach(data => addCard(data));
-}
+const popupCardSelector = '.popup_add-place';
+const popupCardElement = root.querySelector(popupCardSelector);
+const popupCardForm = popupCardElement.querySelector('.popup__form');
 
-function returnProfileValues () {
-	profileNameInput.value = profileNameString.textContent;
-	profileDescriptionInput.value = profileDescriptionString.textContent;
-}
+const popupFullPicSelector = '.photo-open';
 
-function openPopup (popup) {
-	popup.classList.add('popup_opened');
-
-	popup.addEventListener('click', closePopupByOverlay);
-	window.addEventListener('keydown', closePopupByEsc);
-}
-
-function openFullPic (evt) { // Открытие попапа с полноразмерной картинкой
-	const image = popupFullPic.querySelector('.photo-open__image');
-	const targetImage = evt.target;
-
-	image.setAttribute('src', targetImage.src);
-	image.setAttribute('alt', targetImage.alt);
-
-	const caption = popupFullPic.querySelector('.photo-open__name');
-
-	caption.textContent = targetImage.alt;
-
-	openPopup(popupFullPic);
-}
-
-function closePopup (popup) {
-	popup.removeEventListener('click', closePopupByOverlay);
-	window.removeEventListener('keydown', closePopupByEsc);
-
-	popup.classList.remove('popup_opened');
-}
-
-function closePopupByOverlay (evt) {
-	const popup = root.querySelector('.popup_opened');
-
-	if (evt.target === popup) {
-		closePopup(popup);
-	}
-}
-
-function closePopupByEsc (evt) {
-	if (evt.key === 'Escape') {
-		const popup = root.querySelector('.popup_opened');
-		closePopup(popup);
-	}
-}
-
-function setProfileValues (evt) {
-	evt.preventDefault();
-
-	profileNameString.textContent = profileNameInput.value;
-	profileDescriptionString.textContent = profileDescriptionInput.value;
-
-	const popup = root.querySelector('.popup_opened');
-	closePopup(popup);
-}
-
-function setCardValues (evt) {
-	evt.preventDefault();
-
-	const data = {};
-	data.name = cardPlaceInput.value;
-	data.link = cardLinkInput.value;
-
-	addCard(data);
-
-	const popup = root.querySelector('.popup_opened');
-	closePopup(popup);
-}
-
-function addCard (data) {
-	const card = new Card(data, '#template-card');
-	cardGrid.prepend(card.generateCard());
-}
-
-profileEditButton.addEventListener('click', function () {
-	returnProfileValues();
-	profileValidator.checkForm();
-	openPopup(popupProfile);
+const userInfo = new UserInfo({
+	userNameSelector: '.profile__name',
+	userDescriptionSelector: '.profile__status'
 });
 
-cardCreateButton.addEventListener('click', function () {
+const initialCardsSection = new Section({ // Секция с карточками из коробки
+	items: initialCards,
+	renderer: (data, section) => {
+		function openFullPic (evt) {
+			popupFullPic.open(evt);
+		}
+
+		const cardElement = new Card(data, '#template-card', openFullPic).generateCard();
+		section.addItem(cardElement);
+	}
+}, cardGridSelector);
+
+const popupProfile = new PopupWithForm( // Попап «Редактировать профиль»
+	popupProfileSelector,
+	(evt, values) => {
+		evt.preventDefault();
+
+		userInfo.setUserInfo(values);
+
+		popupProfile.close();
+	}
+);
+const profileValidator = new FormValidator(validationConfig, popupProfileForm); // Валидатор формы «Редактировать профиль»
+
+const popupCard = new PopupWithForm( // Попап «Добавить карточку»
+	popupCardSelector,
+	(evt, values) => {
+		evt.preventDefault();
+
+		const data = {};
+		data.name = values.name;
+		data.link = values.description;
+
+		const newCardSection = new Section({
+			items: data,
+			renderer: (data, section) => {
+				function openFullPic (evt) {
+					popupFullPic.open(evt);
+				}
+
+				const cardElement = new Card(data, '#template-card', openFullPic).generateCard();
+				section.addItem(cardElement);
+			}
+		}, cardGridSelector);
+		newCardSection.renderItems();
+
+		popupCard.close();
+	}
+);
+const cardValidator = new FormValidator(validationConfig, popupCardForm); // Валидатор формы «Добавить карточку»
+
+const popupFullPic = new PopupWithImage(popupFullPicSelector); // Попап с полноразмерной картинкой
+
+// * Вешаем слушатели событий
+
+profileEditButton.addEventListener('click', function () { // Клик по кнопке «Редактировать профиль»
+	const currentUserInfo = userInfo.getUserInfo();
+	profileNameInput.value = currentUserInfo.name;
+	profileDescriptionInput.value = currentUserInfo.description;
+
+	profileValidator.checkForm();
+	popupProfile.open();
+});
+
+cardCreateButton.addEventListener('click', function () { // Клик по кнопке «Добавить карточку»
 	popupCardForm.reset();
 	cardValidator.checkForm();
-	openPopup(popupCard);
+	popupCard.open();
 });
 
-popupCloseButtons.forEach(function (button) {
-	button.addEventListener('click', function () {
-		const popup = root.querySelector('.popup_opened');
-		closePopup(popup);
-	});
-});
+// * Вызываем методы
 
-popupProfileForm.addEventListener('submit', setProfileValues);
-popupCardForm.addEventListener('submit', setCardValues);
-
-const profileValidator = new FormValidator(validationConfig, popupProfileForm);
-profileValidator.enableValidation();
-
-const cardValidator = new FormValidator(validationConfig, popupCardForm);
-cardValidator.enableValidation();
-
-addInitialCards();
-
-export { openFullPic };
+profileValidator.enableValidation(); // Запуск валидации формы «Редактировать профиль»
+cardValidator.enableValidation(); // Запуск валидации формы «Добавить карточку»
+initialCardsSection.renderItems(); // Добавление карточек из коробки
+export {root};
