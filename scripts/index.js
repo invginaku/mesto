@@ -70,7 +70,7 @@ const userInfo = new UserInfo({
 	userDescriptionSelector: '.profile__status'
 });
 
-const initialCardsSection = new Section({ // Секция с карточками из коробки
+const initialCardsSection = new Section({
 	items: initialCards,
 	renderer: (data, section) => {
 		function openFullPic (evt) {
@@ -82,7 +82,7 @@ const initialCardsSection = new Section({ // Секция с карточкам�
 	}
 }, cardGridSelector);
 
-const popupProfile = new PopupWithForm( // Попап «Редактировать профиль»
+const popupProfile = new PopupWithForm(
 	popupProfileSelector,
 	(evt, values) => {
 		evt.preventDefault();
@@ -92,9 +92,9 @@ const popupProfile = new PopupWithForm( // Попап «Редактироват
 		popupProfile.close();
 	}
 );
-const profileValidator = new FormValidator(validationConfig, popupProfileForm); // Валидатор формы «Редактировать профиль»
+const profileValidator = new FormValidator(validationConfig, popupProfileForm);
 
-const popupCard = new PopupWithForm( // Попап «Добавить карточку»
+const popupCard = new PopupWithForm(
 	popupCardSelector,
 	(evt, values) => {
 		evt.preventDefault();
@@ -119,13 +119,11 @@ const popupCard = new PopupWithForm( // Попап «Добавить карто
 		popupCard.close();
 	}
 );
-const cardValidator = new FormValidator(validationConfig, popupCardForm); // Валидатор формы «Добавить карточку»
+const cardValidator = new FormValidator(validationConfig, popupCardForm);
 
-const popupFullPic = new PopupWithImage(popupFullPicSelector); // Попап с полноразмерной картинкой
+const popupFullPic = new PopupWithImage(popupFullPicSelector);
 
-// * Вешаем слушатели событий
-
-profileEditButton.addEventListener('click', function () { // Клик по кнопке «Редактировать профиль»
+profileEditButton.addEventListener('click', function () {
 	const currentUserInfo = userInfo.getUserInfo();
 	profileNameInput.value = currentUserInfo.name;
 	profileDescriptionInput.value = currentUserInfo.description;
@@ -134,15 +132,13 @@ profileEditButton.addEventListener('click', function () { // Клик по кн�
 	popupProfile.open();
 });
 
-cardCreateButton.addEventListener('click', function () { // Клик по кнопке «Добавить карточку»
+cardCreateButton.addEventListener('click', function () {
 	popupCardForm.reset();
 	cardValidator.checkForm();
 	popupCard.open();
 });
 
-// * Вызываем методы
-
-profileValidator.enableValidation(); // Запуск валидации формы «Редактировать профиль»
-cardValidator.enableValidation(); // Запуск валидации формы «Добавить карточку»
-initialCardsSection.renderItems(); // Добавление карточек из коробки
+profileValidator.enableValidation();
+cardValidator.enableValidation();
+initialCardsSection.renderItems();
 export {root};

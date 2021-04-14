@@ -12,7 +12,7 @@ export default class Card {
 		this._setLike = this._setLike.bind(this);
 	}
 
-	_getTemplate () { // Получение элемента карточки из шаблона
+	_getTemplate () {
 		const cardElement = root
 			.querySelector(this._template)
 			.content
@@ -22,12 +22,12 @@ export default class Card {
 		return cardElement;
 	}
 
-	_removeCard () { // Удаление карточки
+	_removeCard () {
 		this._element.remove();
 		this._element = null;
 	}
 
-	_setLike () { // Установка и снятие лайка
+	_setLike () {
 		const like = this._element.querySelector('.button_type_like');
 		like.classList.toggle('button_type_like_active');
 	}
@@ -43,7 +43,7 @@ export default class Card {
 		openFullPicButton.addEventListener('mousedown', this._handleCardClick);
 	}
 
-	generateCard () { // Создание новой карточки
+	generateCard () {
 		this._element = this._getTemplate();
 
 		const cardElementImage = this._element.querySelector('.element__photo');

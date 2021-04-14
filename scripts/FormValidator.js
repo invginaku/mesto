@@ -9,7 +9,7 @@ export default class FormValidator {
 		this._validateForm = this._validateForm.bind(this);
 	}
 
-	_validateInput (input) { // Валидация поля
+	_validateInput (input) {
 		if (input.validity.valid) {
 			this._hideValidationError(input);
 		} else {
@@ -17,7 +17,7 @@ export default class FormValidator {
 		}
 	}
 
-	_validateForm () { // Валидация формы
+	_validateForm () {
 		const inputsArray = Array.from(this._inputs);
 
 		if (inputsArray.every(input => input.validity.valid)) {
@@ -59,7 +59,7 @@ export default class FormValidator {
 		this._setEventListeners();
 	}
 
-	checkForm () { // Проверка формы при открытии
+	checkForm () {
 		const formIsValid = this._form.checkValidity();
 
 		this._inputs.forEach((input) => this._hideValidationError(input));
