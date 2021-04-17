@@ -9,12 +9,12 @@
 
 <body class="body">
 <header class="header">
-    <img src="<%=require(./images/header-logo.svg)%>" class="header__logo" alt="логотип место">
+    <img src="<%=require('./images/header-logo.svg')%>" class="header__logo" alt="логотип место">
 </header>
 <main class="content">
     <section class="profile">
         <div class="profile__title">
-            <img src="<%=require(./images/jak.png)%>" class="profile__avatar" alt="Жак">
+            <img src="<%=require('./images/jak.png')%>" class="profile__avatar" alt="Жак">
             <div class="profile__info">
                 <h1 class="profile__name">Жак-Ив Кусто</h1>
                 <button class="button button_type_edit" type="button"></button>
@@ -36,7 +36,7 @@
         <form class="popup__form popup__form_add-place-profile-popup" name="form">
             <input class="popup__input popup__input_type_name" type="text" name="name" id="name-input" value="" placeholder="Имя" minlength="2" maxlength="48" pattern="[a-zA-Zа-яёА-ЯЁ -]{1,}" required>
             <span id="name-input-error" class="popup__error"></span>
-            <input class="popup__input popup__input_type_status" type="text" name="job" id="job-input" value=""
+            <input class="popup__input popup__input_type_status" type="text" name="status" id="job-input" value=""
                    placeholder="О себе" minlength="2" maxlength="200" required>
             <span id="job-input-error" class="popup__error"></span>
             <button class="button button_type_save button_type_save-profile-popup">Сохранить</button>
@@ -50,7 +50,7 @@
         <form class="popup__form popup__form_add-place" name="form" id="place-form" novalidate>
             <input class="popup__input popup__input_type_place-name" type="text" name="place" id="place-input" value="" placeholder="Название"  minlength="2" maxlength="30" required>
             <span id="place-input-error" class="popup__error"></span>
-            <input class="popup__input popup__input_type_place-image" type="url" name="image" id="link-input"  value=""
+            <input class="popup__input popup__input_type_place-image" type="url" name="link" id="link-input"  value=""
                    placeholder="Ссылка на картинку" required>
             <span id="link-input-error" class="popup__error"></span>
             <button class="button button_type_save button_type_save-add-place">Сохранить</button>

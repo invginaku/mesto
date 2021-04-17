@@ -1,7 +1,6 @@
-import { root } from './index.js';
-
 export default class Card {
 	constructor (data, template, handleCardClick) {
+		this._data = data;
 		this._name = data.name;
 		this._link = data.link;
 		this._alt = data.alt;
@@ -13,7 +12,7 @@ export default class Card {
 	}
 
 	_getTemplate () {
-		const cardElement = root
+		const cardElement = document
 			.querySelector(this._template)
 			.content
 			.querySelector('.element')
@@ -40,7 +39,7 @@ export default class Card {
 		likeButton.addEventListener('click', this._setLike);
 
 		const openFullPicButton = this._element.querySelector('.element__photo');
-		openFullPicButton.addEventListener('mousedown', this._handleCardClick);
+		openFullPicButton.addEventListener('mousedown', () => {this._handleCardClick(this._data)});
 	}
 
 	generateCard () {

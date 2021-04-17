@@ -80,15 +80,11 @@ const userInfo = new UserInfo({
     userDescriptionSelector: '.profile__status'
 });
 
-const initialCardsSection = new Section({
+const cardsSection = new Section({
     items: initialCards,
-    renderer: (data, section) => {
-        function openFullPic (evt) {
-            popupFullPic.open(evt);
-        }
-
-        const cardElement = new Card(data, '#template-card', openFullPic).generateCard();
-        section.addItem(cardElement);
+    renderer: (data) => {
+        const cardElement = new Card(data, '#template-card', popupFullPic.open).generateCard();
+        cardsSection.appendItem(cardElement);
     }
 }, cardGridSelector);
 
@@ -110,21 +106,11 @@ const popupCard = new PopupWithForm(
         evt.preventDefault();
 
         const data = {};
-        data.name = values.name;
-        data.link = values.description;
+        data.name = values.place;
+        data.link = values.link;
 
-        const newCardSection = new Section({
-            items: data,
-            renderer: (data, section) => {
-                function openFullPic (evt) {
-                    popupFullPic.open(evt);
-                }
-
-                const cardElement = new Card(data, '#template-card', openFullPic).generateCard();
-                section.addItem(cardElement);
-            }
-        }, cardGridSelector);
-        newCardSection.renderItems();
+        const cardElement = new Card(data, '#template-card', popupFullPic.open).generateCard();
+        cardsSection.addItem(cardElement);
 
         popupCard.close();
     }
@@ -150,5 +136,4 @@ cardCreateButton.addEventListener('click', function () {
 
 profileValidator.enableValidation();
 cardValidator.enableValidation();
-initialCardsSection.renderItems();
-export {root};
+cardsSection.renderItems();
