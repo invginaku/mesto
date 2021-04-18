@@ -60,14 +60,8 @@ export default class FormValidator {
 	}
 
 	checkForm () {
-		const formIsValid = this._form.checkValidity();
-
 		this._inputs.forEach((input) => this._hideValidationError(input));
 
-		if (formIsValid) {
-			this._enableSaveButton();
-		} else {
-			this._disableSaveButton();
-		}
+		this._validateForm ();
 	}
 }
