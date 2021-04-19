@@ -118,6 +118,9 @@ const popupCard = new PopupWithForm(
 const cardValidator = new FormValidator(validationConfig, popupCardForm);
 
 const popupFullPic = new PopupWithImage(popupFullPicSelector);
+popupFullPic.setEventListeners();
+popupCard.setEventListeners();
+popupProfile.setEventListeners();
 
 profileEditButton.addEventListener('click', function () {
     const currentUserInfo = userInfo.getUserInfo();
