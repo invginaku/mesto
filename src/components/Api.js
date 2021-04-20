@@ -21,7 +21,7 @@ export default class Api {
                 authorization: this._token
             }
         })
-            .then(res => this._checkResponseData(res));
+            .then(this._checkResponseData);
     }
 
     fetchInitialCards () {

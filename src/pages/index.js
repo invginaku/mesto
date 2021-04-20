@@ -66,13 +66,15 @@ const popupProfile = new PopupWithForm(
         api.patchUserInfo(values)
             .then(() => {
                 userInfo.setUserInfo(values);
-                popupProfile.renderLoading(false);
                 popupProfile.close();
             })
             .catch(err => {
                 console.log(`Что-то пошло не так: ${err}`);
                 popupProfile.showResponseError(err);
-            });
+            })
+            .finally(() => {
+            popupProfile.renderLoading(false);
+        });
     }
 );
 const profileValidator = new FormValidator(validationConfig, popupProfileForm);
@@ -87,12 +89,14 @@ const popupAvatar = new PopupWithForm(
         api.updateAvatar(values.avatar)
             .then(() => {
                 userInfo.setAvatar(values.avatar);
-                popupAvatar.renderLoading(false);
                 popupAvatar.close();
             })
             .catch(err => {
                 console.log(`Что-то пошло не так: ${err}`);
                 popupAvatar.showResponseError(err);
+            })
+            .finally(() => {
+                popupAvatar.renderLoading(false);
             });
     }
 );
@@ -118,13 +122,14 @@ const popupCard = new PopupWithForm(
 
                 const cardElement = newCard.generateCard();
                 cardsSection.addItem(cardElement);
-
-                popupCard.renderLoading(false);
                 popupCard.close();
             })
             .catch(err => {
                 console.log(`Что-то пошло не так: ${err}`);
                 popupCard.showResponseError(err);
+            })
+            .finally(() => {
+                popupCard.renderLoading(false);
             });
     }
 );
@@ -138,12 +143,14 @@ const confirmDeletePopup = new PopupConfirm(
         api.deleteCard(cardId)
             .then(() => {
                 confirmDeletePopup.card.removeCard();
-                confirmDeletePopup.renderLoading(false);
                 confirmDeletePopup.close();
             })
             .catch(err => {
                 console.log(`Что-то пошло не так: ${err}`);
                 confirmDeletePopup.showResponseError(err);
+            })
+            .finally(() => {
+                confirmDeletePopup.renderLoading(false);
             });
     }
 );
