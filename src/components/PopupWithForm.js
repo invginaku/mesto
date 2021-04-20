@@ -3,13 +3,17 @@ import Popup from './Popup.js';
 export default class PopupWithForm extends Popup {
     constructor (popupSelector, submitHandler) {
         super(popupSelector);
+        this._submitHandler = submitHandler;
+
         this._form = this._popup.querySelector('.popup__form');
         this._popupInputs = this._popup.querySelectorAll('.popup__input');
-
-        this._submitHandler = submitHandler;
+        this._submitButton = this._popup.querySelector('.button_type_save');
+        this._buttonText = this._submitButton.textContent;
+        this._buttonLoadingText = 'Сохранение...';
 
         this._submitHandler = this._submitHandler.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
+        this.renderLoading = this.renderLoading.bind(this);
     }
 
     _getInputValues() {
@@ -28,8 +32,26 @@ export default class PopupWithForm extends Popup {
         this._form.addEventListener('submit', this._handleSubmit);
     }
 
-    close() {
+    close () {
+        this.hideResponseError();
         super.close();
-        this._form.reset();
+    }
+
+    renderLoading (isLoading) {
+        if (isLoading) {
+            this._submitButton.textContent = this._buttonLoadingText;
+        } else {
+            this._submitButton.textContent = this._buttonText;
+        }
+    }
+
+    showResponseError (err) {
+        this._submitButton.textContent = err;
+        this._submitButton.classList.add('button_type_error');
+    }
+
+    hideResponseError () {
+        this._submitButton.textContent = this._buttonText;
+        this._submitButton.classList.remove('button_type_error');
     }
 }
